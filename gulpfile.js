@@ -30,7 +30,7 @@ var paths = {
 }
 
 // do everything we do for inline minify, concat, obscure right here
-gulp.task('compactigate', function() {
+gulp.task('compactigate', ['clean'], function() {
     // css: [minifyCss({keepSpecialComments: 0}), 'concat'],
     return gulp.src(paths.index)
         .pipe(usemin({
@@ -40,7 +40,7 @@ gulp.task('compactigate', function() {
         .pipe(gulp.dest(dist));
 });
 
-gulp.task('copy-assets', function() {
+gulp.task('copy-assets', ['clean'], function() {
   return gulp.src(paths.assets)
       .pipe(rename({dirname:'images'}))
       .pipe(gulp.dest(dist+res))
@@ -65,8 +65,9 @@ gulp.task('watch', function() {
 
 // Default Task
 gulp.task('default', ['lint', 'watch'])
-// I haven't seen a satisfactory chaining (serializing) scheme --- until I do,
-// build will not start with clean
+// we don't care when lint is run but copy-assets and compactigate will both
+// force a single clean.  That makes clean work but now copy-assets and compactigate
+// are not re-usable.  And maybe that's ok.
 gulp.task('build', ['lint', 'copy-assets', 'compactigate'])
 
 
