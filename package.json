@@ -1,0 +1,11 @@
+{
+  "name": "PedometerLog",
+  "description": "An app to track and record pedometer data",
+  "main": "./client/html/index.html",
+  "scripts": {
+    "prepublish": "echo yo, prepublishing - cannot clean node_modules here",
+    "postinstall": "echo postinstall & zip -r ../pedoAPP.nw package.json node_modules html js",
+    "postuninstall": "rm -rf node_modules/*",
+    "start":"nw"
+  }
+}

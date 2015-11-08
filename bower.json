@@ -1,0 +1,20 @@
+{
+  "name": "yummy-octo-turtle",
+  "version": "0.0.0",
+  "description": "node-webkit/angularjs testbed.",
+  "main": "unimportant.js",
+  "moduleType": [],
+  "keywords": [
+    "node-webkit angularjs"
+  ],
+  "authors": [
+    "Tom Trask"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "angular": "*",
+    "d3": "~3.5.6"
+  }
+}

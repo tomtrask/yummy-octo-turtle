@@ -1,5 +1,7 @@
 # hope this works...do I have to check in my .gitignore? seems like yes
 # don't push data or node_modules to github
+.DS_store
+*.csv
 data/
 deploy/
 node_modules/

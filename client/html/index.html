@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html ng-app="rootModule">
+  <head>
+    <title>Pedometer Log</title>
+    <script src="../ext/angular/angular.min.js"></script>
+    <style>
+    body {
+      padding:0px;
+      margin:0px;
+    }
+
+    * {
+      font-family: Arial;
+      font-size: 11pt;
+    }
+
+    td.date, td.mid {
+      text-align:center;
+      }
+    td.num, input.num {
+      text-align:right;
+      }
+
+    td.low {
+      background:#ff9;
+    }
+
+    td.high {
+      background:#99f;
+    }
+
+    .odd-stripe {
+      background:#eee;
+    }
+    .even-stripe{
+      background:#bbb;
+    }
+    .section {
+      border-bottom: solid 1px black;
+    }
+    button {
+      border-radius: 4px;
+      background:white;
+      border: solid 1px grey;
+    }
+
+    input.date, input.num {
+      background:#ffb;
+      height:1.3em;
+    }
+    input.date {
+      width: 10em;
+      text-align:center;
+    }
+
+    th.k-value {
+      width:4em;
+    }
+    </style>
+  </head>
+  <body>
+  <div ng-controller="mainController">
+    <div ng-show='0' class="section" ng-controller="getFileController">
+      <!-- ng-change does not work on date input -->
+      Different File Input:&nbsp;
+      <input type="file" style="display:block" 
+             id="file"
+             name='file' onchange="angular.element(this).scope().fileNameChanged(this)" />
+      <input id="open" type="file" style="display:none" accept="text/*"/>
+      <input id="save" type="file" nwsaveas style="display:none" accept="text/*"/>
+      <br/>
+    </div>
+    <div class='section' ng-controller='addReadingController'>
+      <table>
+        <tr>
+          <td><label>What Day?</label></td>
+          <td><label>How Far?</label></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td><input class='date' type='date' id='newDate' ng-model='newDate'></td>
+          <td><input class='num' type='number' ng-keyup='stepsKeyUp($event)'
+                     ng-model='newPedometer'></td>
+          <td><button ng-click='commit()'>Save</td>
+        </tr>
+      </table>
+    </div>
+<div ng-show='describe'>
+Data File:&nbsp;{{appModel.getHistoryFileName()}}<br/>
+Sum:&nbsp;{{describe.sumY/1e6 | number:3}}&nbsp;million<br/>
+Average:&nbsp;{{describe.average | number:0}}&nbsp;(std dev {{describe.stdDev | number:0}})<br/>
+95% Range:&nbsp;{{(describe.average-1.96*describe.stdDev) | number:-2}}&nbsp;
+  to&nbsp;{{(describe.average+1.96*describe.stdDev) | number:-2}}<br/>
+</div>
+<!-- 
+<div>
+Give me a step count:&nbsp;<input class='num' type='number' step='100' ng-change='describeFrequency()'
+                                  ng-model='askingAbout'><br/>
+</div>
+<div>
+<p ng-repeat='frequencySay in frequencyDescriptions'>
+-&nbsp;{{frequencySay}}
+</div>
+-->
+<div>
+<img ng-src='../resources/images/{{appModel.getGraphName()}}' />
+<table cellpadding="5px" cellspacing="0">
+  <thead>
+    <tr>
+      <th rowspan='3' class='date'>#</th>
+      <th rowspan="3">Date</th>
+      <th rowspan="3">Day</th>
+      <th rowspan="3">Daily</th>
+      <th colspan="6">Annual Stats</th>
+      <th rowspan="3">Del</th>
+    </tr>
+    <tr>
+      <th colspan="2">Daily</th>
+      <th colspan="2">Weekly Range</th>
+      <th colspan="2">Monthly Range</th>
+    </tr>
+    <tr>
+      <th class="k-value">Avg</th>
+      <th class="k-value">Median</th>
+      <th class="k-value">Low</th>
+      <th class="k-value">High</th>
+      <th class="k-value">Low</th>
+      <th class="k-value">High</th>
+    </tr>
+  </thead>
+  <tbody>
+     <tr ng-repeat="row in history" ng-init="todayLimits = history[0].weeklyRange"
+     ng-class="{'odd-stripe' : !($index%2), 'even-stripe' : $index%2}">
+      <td class='num'>{{$index+1}}</td>
+      <td class="date">{{row.dateAsDate | date:'MM/dd/yyyy' }}</td>
+      <td class="date">{{row.dateAsDate | date:'EEE' }}</td>
+      <td class="num" ng-class="{'low':($index < 365 && row.pedometer<todayLimits.lower), 'high':($index < 365 && row.pedometer>todayLimits.upper)}" >{{row.pedometer | number:0}}</td>
+      <td class="num">{{row.average | number:-2}}</td>
+      <td class="num">{{row.median | number:-2}}</td>
+      <td class="num">{{row.weeklyRange.lower | number:-2}}</td>
+      <td class="num">{{row.weeklyRange.upper | number:-2}}</td>
+      <td class="num">{{row.monthlyRange.lower | number:-2}}</td>
+      <td class="num">{{row.monthlyRange.upper | number:-2}}</td>
+      <td class="mid"><img src='../resources/images/icon_circleRemove_16x16.png'
+                           title='Delete {{row.dateAsDate | date:"M/dd/yyyy"}}'
+                           ng-click="doDeleteRow($index);">
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+ 
+</body>
+<script src='../resources/js/mainController.js'></script>
+<script src='../resources/js/getFileController.js'></script>
+<script src='../resources/js/addReadingController.js'></script>
+<script src='../resources/js/toolFactory.js'></script>
+<script src='../resources/js/app.js'></script>
+
+</html>

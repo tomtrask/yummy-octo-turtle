@@ -1,0 +1,5 @@
+quit;
+quit()
+quit('no')
+source('play.r')
+quit('no')
