@@ -1,11 +1,25 @@
 {
   "name": "PedometerLog",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomtrask/yummy-octo-turtle.git"
+  },
   "description": "An app to track and record pedometer data",
-  "main": "./client/html/index.html",
+  "main": "./punkt/index.html",
   "scripts": {
     "prepublish": "echo yo, prepublishing - cannot clean node_modules here",
     "postinstall": "echo postinstall & zip -r ../pedoAPP.nw package.json node_modules html js",
     "postuninstall": "rm -rf node_modules/*",
-    "start":"nw"
+    "start": "nw"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-jshint": "^1.12.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.4.2",
+    "gulp-usemin": "^0.3.15"
   }
 }

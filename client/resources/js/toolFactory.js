@@ -141,31 +141,30 @@ var ToolFactoryFunction = function($rootScope) {
     //  rank from bottom denoted by negative rank (so -1 is lowest, 1 highest)
     //  returns null when rank*2 > privateOrderedArray.length (not enough samples)
     OrderedRing.prototype.getByRank = function(rank) {
-      var uRank = rank < 0 ? -rank : rank;
-      if (uRank*2 > privateOrderedArray.length || rank == 0 && privateOrderedArray.length == 0) {
-        return null;
-      } else if (uRank == 0) {
-        return privateOrderedArray[Math.floor(privateOrderedArray.length/2)];
+      var uRank = rank < 0 ? -rank : rank
+      if (uRank*2 > privateOrderedArray.length || rank === 0 && privateOrderedArray.length === 0) {
+        return null
+      } else if (uRank === 0) {
+        return privateOrderedArray[Math.floor(privateOrderedArray.length/2)]
       } else {
         if (rank < 0) {
-          return privateOrderedArray[-(rank+1)];
+          return privateOrderedArray[-(rank+1)]
         } else {
-          return privateOrderedArray[privateOrderedArray.length-rank];
+          return privateOrderedArray[privateOrderedArray.length-rank]
         }
       }
     }
 
     OrderedRing.prototype.getDescriptiveStats = function() {
-      var result = JSON.parse(JSON.stringify(stats));
-      result.n;
+      var result = JSON.parse(JSON.stringify(stats))
       if (result.n > 0) {
-        result.average = privateRing.length > 0 ? result.sumY / result.n: null;
+        result.average = privateRing.length > 0 ? result.sumY / result.n: null
         if (result.n > 1) {
-          result.stdDev = Math.sqrt((result.sumYY-result.sumY*result.sumY/result.n)/(result.n-1));
+          result.stdDev = Math.sqrt((result.sumYY-result.sumY*result.sumY/result.n)/(result.n-1))
         }
       }
 
-      return result;
+      return result
     }
 
     return new OrderedRing();

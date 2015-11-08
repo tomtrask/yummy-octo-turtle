@@ -17,7 +17,7 @@ MainControllerFunction = function($scope, toolFactory, $document, $window) {
     var daysToRepeat = Math.round(1/frac)
     result.push('You achieve that level or '+otherWord[partialDescr]+' every '+daysToRepeat+' days.')
 
-    for (denomIndex in denoms) {
+    for (var denomIndex in denoms) {
       var denom = denoms[denomIndex]
       var tryNum = Math.floor(denom.denom * frac)
       if (tryNum > 0)

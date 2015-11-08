@@ -1,9 +1,9 @@
-var myModule = angular.module('rootModule', []);
-
-myModule.controller("mainController", MainControllerFunction);
-myModule.controller("getFileController", GetFileControllerFunction);
-myModule.controller("addReadingController", AddReadingControllerFunction);
-myModule.factory('toolFactory', ToolFactoryFunction);
+var myModule = angular.module('rootModule', [])
+    .constant('HISTORY_FILE', 'history.csv')
+    .controller("mainController", MainControllerFunction)
+    .controller("getFileController", GetFileControllerFunction)
+    .controller("addReadingController", AddReadingControllerFunction)
+    .factory('toolFactory', ToolFactoryFunction)
 
 
 //  I'm very much adding the guts of this function at the end of development.
@@ -14,17 +14,19 @@ myModule.factory('toolFactory', ToolFactoryFunction);
 //  in localStorage.
 //  4/20 - I think this module manages state while tools do fancy stuff with data
 //  and file I/O and parsing.
-myModule.run(function($rootScope, $window, toolFactory){
-  var appStateName = 'rumpelstiltskin'
-  var historyFileName = 'history.csv'
-  var appState
+myModule.run(function($rootScope, $window, toolFactory, HISTORY_FILE) {
   var fs = require('fs')
   var path = require('path')
+
+  var appStateName = 'rumpelstiltskin'
+  var historyFileName = HISTORY_FILE
+  var appState = {
+    historyFileName : HISTORY_FILE
+  }
 
   var saveAppState = function() {
     localStorage[appStateName] = JSON.stringify(appState)
   }
-
 
   //  The functions marked private will be exposed through the $scope.appModel object
   //  add derived data to history[]
@@ -55,7 +57,7 @@ myModule.run(function($rootScope, $window, toolFactory){
   //  Read the history file and put details into $rootScope.history etc.
   var privateReadHistoryFile = function(historyFileName, callback) {
     toolFactory.readHistoryFile(historyFileName, function(err,res) {
-      if (err == null) {
+      if (err === null) {
         $rootScope.history = res
       } else {
         $rootScope.history = []
@@ -102,14 +104,15 @@ myModule.run(function($rootScope, $window, toolFactory){
     })
   }
 
+  // There's no real reason to save the name of our history file in localStorage
   if (localStorage[appStateName]) {
     appState = JSON.parse(localStorage[appStateName])
   } else {
-    appState = {
-      historyFileName: 'history.csv'
-    }
+    appState = {}
     saveAppState()
   }
+  // It is pointless to save the name of the history file
+  appState.historyFileName = HISTORY_FILE
 
   // load or create&load history file
   fs.exists(appState.historyFileName, function(res,err) {

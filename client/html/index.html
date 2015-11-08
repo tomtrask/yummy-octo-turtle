@@ -2,7 +2,11 @@
 <html ng-app="rootModule">
   <head>
     <title>Pedometer Log</title>
+
+    <!-- build:jsExt res/ext.min.js -->
     <script src="../ext/angular/angular.min.js"></script>
+    <!-- endbuild -->
+
     <style>
     body {
       padding:0px;
@@ -151,10 +155,12 @@ Give me a step count:&nbsp;<input class='num' type='number' step='100' ng-change
 </div>
  
 </body>
+<!-- build:jsApp res/app.min.js -->
 <script src='../resources/js/mainController.js'></script>
 <script src='../resources/js/getFileController.js'></script>
 <script src='../resources/js/addReadingController.js'></script>
 <script src='../resources/js/toolFactory.js'></script>
 <script src='../resources/js/app.js'></script>
+<!-- endbuild -->
 
 </html>
