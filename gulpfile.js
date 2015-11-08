@@ -10,6 +10,7 @@ var rename = require('gulp-rename')
 var src='client/'
 var dist='punkt/'
 // index.html does refer to res or resources for compactigated elements
+// Also, source is in a directory called resources
 var res='res/'
 
 var paths = {

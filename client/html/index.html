@@ -107,7 +107,7 @@ Give me a step count:&nbsp;<input class='num' type='number' step='100' ng-change
 </div>
 -->
 <div>
-<img ng-src='../resources/images/{{appModel.getGraphName()}}' />
+<img ng-src='res/images/{{appModel.getGraphName()}}' />
 <table cellpadding="5px" cellspacing="0">
   <thead>
     <tr>
@@ -145,7 +145,7 @@ Give me a step count:&nbsp;<input class='num' type='number' step='100' ng-change
       <td class="num">{{row.weeklyRange.upper | number:-2}}</td>
       <td class="num">{{row.monthlyRange.lower | number:-2}}</td>
       <td class="num">{{row.monthlyRange.upper | number:-2}}</td>
-      <td class="mid"><img src='../resources/images/icon_circleRemove_16x16.png'
+      <td class="mid"><img src='res/images/icon_circleRemove_16x16.png'
                            title='Delete {{row.dateAsDate | date:"M/dd/yyyy"}}'
                            ng-click="doDeleteRow($index);">
       </td>
