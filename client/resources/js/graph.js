@@ -1,20 +1,21 @@
 //  Begin...graph tools (service)
 var GraphToolFunction = function() {
   console.log('first, first, first')
+
   var NINETY_PCT = 0.9
 
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
       width = 960 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
-  /* 
+  /*
    * value accessor - returns the value to encode for a given data object.
    * scale - maps value to a visual display encoding, such as a pixel position.
    * map function - maps from data value to display value
    * axis - sets up axis
-   */ 
+   */
 
-  // setup x 
+  // setup x
   var xValue = function(d) { return d.Calories;}, // data -> value
       xScale = d3.scale.linear().range([0, width]), // value -> display
       xMap = function(d) { return xScale(xValue(d));}, // data -> display
@@ -31,7 +32,7 @@ var GraphToolFunction = function() {
       color = d3.scale.category10();
 
   // add the graph canvas to the body of the webpage
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select("#graph").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -43,7 +44,7 @@ var GraphToolFunction = function() {
       .style("opacity", 0);
 
   // load data
-  d3.csv("cereal.csv", function(error, data) {
+  d3.csv("../cereal.csv", function(error, data) {
 
     // change string (from CSV) into number format
     data.forEach(function(d) {
@@ -88,7 +89,7 @@ var GraphToolFunction = function() {
         .attr("r", 3.5)
         .attr("cx", xMap)
         .attr("cy", yMap)
-        .style("fill", function(d) { return color(cValue(d));}) 
+        .style("fill", function(d) { return color(cValue(d));})
         .on("mouseover", function(d) {
             tooltip.transition()
                  .duration(200)
