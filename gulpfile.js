@@ -5,6 +5,7 @@ var uglify = require('gulp-uglify')
 var jshint = require('gulp-jshint')
 var concat = require('gulp-concat')
 var del = require('del')
+var minifyCss = require('gulp-minify-css')
 var rename = require('gulp-rename')
 
 var src='client/'
@@ -36,6 +37,7 @@ gulp.task('compactigate', ['clean'], function() {
         .pipe(usemin({
             jsApp : ['concat'],
             jsExt : [uglify(), 'concat'],
+            css   : [minifyCss({keepSpecialComments: 0})],
         }))
         .pipe(gulp.dest(dist));
 });
