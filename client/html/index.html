@@ -90,24 +90,17 @@
       </table>
     </div>
 <div ng-show='describe'>
-Data File:&nbsp;{{appModel.getHistoryFileName()}}<br/>
-Sum:&nbsp;{{describe.sumY/1e6 | number:3}}&nbsp;million<br/>
-Average:&nbsp;{{describe.average | number:0}}&nbsp;(std dev {{describe.stdDev | number:0}})<br/>
-95% Range:&nbsp;{{(describe.average-1.96*describe.stdDev) | number:-2}}&nbsp;
-  to&nbsp;{{(describe.average+1.96*describe.stdDev) | number:-2}}<br/>
+  Data File:&nbsp;{{appModel.getHistoryFileName()}}<br/>
+  Sum:&nbsp;{{describe.sumY/1e6 | number:3}}&nbsp;million<br/>
+  Average:&nbsp;{{describe.average | number:0}}&nbsp;(std dev {{describe.stdDev | number:0}})<br/>
+  95% Range:&nbsp;{{(describe.average-1.96*describe.stdDev) | number:-2}}&nbsp;
+    to&nbsp;{{(describe.average+1.96*describe.stdDev) | number:-2}}<br/>
 </div>
-<!-- 
+
+<section id='graph' ng-controller='graphCtrl'>
+</section>
+
 <div>
-Give me a step count:&nbsp;<input class='num' type='number' step='100' ng-change='describeFrequency()'
-                                  ng-model='askingAbout'><br/>
-</div>
-<div>
-<p ng-repeat='frequencySay in frequencyDescriptions'>
--&nbsp;{{frequencySay}}
-</div>
--->
-<div>
-<img ng-src='res/images/{{appModel.getGraphName()}}' />
 <table cellpadding="5px" cellspacing="0">
   <thead>
     <tr>
@@ -156,9 +149,11 @@ Give me a step count:&nbsp;<input class='num' type='number' step='100' ng-change
  
 </body>
 <!-- build:jsApp res/app.min.js -->
-<script src='../resources/js/mainController.js'></script>
-<script src='../resources/js/getFileController.js'></script>
 <script src='../resources/js/addReadingController.js'></script>
+<script src='../resources/js/getFileController.js'></script>
+<script src='../resources/js/graph.js'></script>
+<script src='../resources/js/graphCtrl.js'></script>
+<script src='../resources/js/mainController.js'></script>
 <script src='../resources/js/toolFactory.js'></script>
 <script src='../resources/js/app.js'></script>
 <!-- endbuild -->

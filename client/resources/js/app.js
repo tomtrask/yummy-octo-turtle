@@ -3,6 +3,8 @@ var myModule = angular.module('rootModule', [])
     .controller("mainController", MainControllerFunction)
     .controller("getFileController", GetFileControllerFunction)
     .controller("addReadingController", AddReadingControllerFunction)
+    .controller('graphCtrl', GraphCtrlFunction)
+    .service('graphSvc', GraphToolFunction)
     .factory('toolFactory', ToolFactoryFunction)
 
 

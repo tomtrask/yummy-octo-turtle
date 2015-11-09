@@ -16,7 +16,7 @@ var res='res/'
 var paths = {
   lint : [
     'gulpfile.js',
-    src+res+'**/*.js'
+    src+'resources/**/*.js'
   ],
   index : [
     src+'html/index.html'
