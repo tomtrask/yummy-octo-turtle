@@ -1,57 +1,62 @@
-    body {
-      padding:0px;
-      margin:0px;
-    }
+* {
+  font-family: Arial;
+  font-size: 11pt;
+}
 
-    * {
-      font-family: Arial;
-      font-size: 11pt;
-    }
+body {
+  padding:0px;
+  margin:0px;
+}
 
-    td.date, td.mid {
-      text-align:center;
-      }
-    td.num, input.num {
-      text-align:right;
-      }
+td.date, td.mid {
+  text-align:center;
+}
 
-    td.low {
-      background:#ff9;
-    }
+td.num, input.num {
+  text-align:right;
+}
 
-    td.high {
-      background:#99f;
-    }
+td.low {
+  background:#ff9;
+}
 
-    .odd-stripe {
-      background:#eee;
-    }
-    .even-stripe{
-      background:#bbb;
-    }
-    .section {
-      border-bottom: solid 1px black;
-    }
-    button {
-      border-radius: 4px;
-      background:white;
-      border: solid 1px grey;
-    }
+td.high {
+  background:#99f;
+}
 
-    input.date, input.num {
-      background:#ffb;
-      height:1.3em;
-    }
-    input.date {
-      width: 10em;
-      text-align:center;
-    }
+.odd-stripe {
+  background:#eee;
+}
 
-    th.k-value {
-      width:4em;
-    }
-.axis path,
-.axis line {
+.even-stripe{
+  background:#bbb;
+}
+
+.section {
+  border-bottom: solid 1px black;
+}
+
+button {
+  border-radius: 4px;
+  background:white;
+  border: solid 1px grey;
+}
+
+input.date, input.num {
+  background:#ffb;
+  height:1.3em;
+}
+
+input.date {
+  width: 10em;
+  text-align:center;
+}
+
+th.k-value {
+  width:4em;
+}
+
+.axis path, .axis line {
   fill: none;
   stroke: #F00;
   shape-rendering: crispEdges;
@@ -67,4 +72,3 @@
   height: 28px;
   pointer-events: none;
 }
-
