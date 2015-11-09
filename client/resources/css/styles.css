@@ -1,0 +1,70 @@
+    body {
+      padding:0px;
+      margin:0px;
+    }
+
+    * {
+      font-family: Arial;
+      font-size: 11pt;
+    }
+
+    td.date, td.mid {
+      text-align:center;
+      }
+    td.num, input.num {
+      text-align:right;
+      }
+
+    td.low {
+      background:#ff9;
+    }
+
+    td.high {
+      background:#99f;
+    }
+
+    .odd-stripe {
+      background:#eee;
+    }
+    .even-stripe{
+      background:#bbb;
+    }
+    .section {
+      border-bottom: solid 1px black;
+    }
+    button {
+      border-radius: 4px;
+      background:white;
+      border: solid 1px grey;
+    }
+
+    input.date, input.num {
+      background:#ffb;
+      height:1.3em;
+    }
+    input.date {
+      width: 10em;
+      text-align:center;
+    }
+
+    th.k-value {
+      width:4em;
+    }
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #F00;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+}
+
+.tooltip {
+  position: absolute;
+  width: 200px;
+  height: 28px;
+  pointer-events: none;
+}
+
