@@ -1,6 +1,7 @@
 //  Begin...graph tools (service)
-var GraphToolFunction = function() {
+var GraphToolFunction = function(d3Svc) {
   console.log('first, first, first')
+  console.log('that d3 thing is: '+d3Svc.d3())
 
   var NINETY_PCT = 0.9
 

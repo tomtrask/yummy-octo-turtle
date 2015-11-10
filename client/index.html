@@ -4,12 +4,12 @@
     <title>Pedometer Log</title>
 
     <!-- build:css res/app.min.css -->
-    <link rel="stylesheet" href="../resources/css/styles.css">
+    <link rel="stylesheet" href="res/css/styles.css">
     <!-- endbuild -->
 
     <!-- build:jsExt res/ext.min.js -->
-	  <script src='../ext/d3/d3.min.js'></script>
-    <script src="../ext/angular/angular.min.js"></script>
+    <script src='ext/d3/d3.min.js'></script>
+    <script src="ext/angular/angular.min.js"></script>
     <!-- endbuild -->
 
     <style>
@@ -42,6 +42,8 @@
         </tr>
       </table>
     </div>
+    <div graph1></div>
+
 <div ng-show='describe'>
   Data File:&nbsp;{{appModel.getHistoryFileName()}}<br/>
   Sum:&nbsp;{{describe.sumY/1e6 | number:3}}&nbsp;million<br/>
@@ -102,13 +104,16 @@
 
 </body>
 <!-- build:jsApp res/app.min.js -->
-<script src='../resources/js/addReadingController.js'></script>
-<script src='../resources/js/getFileController.js'></script>
-<script src='../resources/js/graph.js'></script>
-<script src='../resources/js/graphCtrl.js'></script>
-<script src='../resources/js/mainController.js'></script>
-<script src='../resources/js/toolFactory.js'></script>
-<script src='../resources/js/app.js'></script>
+<script src='res/js/addReadingController.js'></script>
+<script src='res/js/getFileController.js'></script>
+<script src='res/js/graph.js'></script>
+<script src='res/js/graphCtrl.js'></script>
+<script src='res/js/mainController.js'></script>
+<script src='res/js/toolFactory.js'></script>
+<script src='res/js/app.js'></script>
+<script src='res/js/d3/d3Mod.js'></script>
+<script src='res/js/graph/graph1.js'></script>
+<script src='res/js/graph/graphMod.js'></script>
 <!-- endbuild -->
 
 </html>

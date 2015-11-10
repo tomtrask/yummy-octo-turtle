@@ -17,13 +17,13 @@ var res='res/'
 var paths = {
   lint : [
     'gulpfile.js',
-    src+'resources/**/*.js'
+    src+res+'**/*.js'
   ],
   index : [
-    src+'html/index.html'
+    src+'index.html'
   ],
   assets : [
-    src+'resources/**/*.png'
+    src+res+'**/*.png'
   ],
   output: [
     dist

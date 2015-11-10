@@ -1,4 +1,4 @@
-var myModule = angular.module('rootModule', [])
+var myModule = angular.module('rootModule', ['d3Mod','graphMod'])
     .constant('HISTORY_FILE', 'history.csv')
     .controller("mainController", MainControllerFunction)
     .controller("getFileController", GetFileControllerFunction)
