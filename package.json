@@ -5,7 +5,8 @@
     "url": "https://github.com/tomtrask/yummy-octo-turtle.git"
   },
   "description": "An app to track and record pedometer data",
-  "main": "./punkt/index.html",
+  "main": "./client/index.html",
+  "prod": "./punkt/index.html",
   "scripts": {
     "prepublish": "echo yo, prepublishing - cannot clean node_modules here",
     "postinstall": "echo postinstall & zip -r ../pedoAPP.nw package.json node_modules html js",
