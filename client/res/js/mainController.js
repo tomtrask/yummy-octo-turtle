@@ -1,4 +1,4 @@
-MainControllerFunction = function($scope, toolFactory, $document, $window) {
+MainControllerFunction = function($scope, toolFactory, $document, $window, $interval) {
   $scope.askingAbout = 10000
   $scope.frequencyDescription = 'n/a'
 
@@ -78,5 +78,43 @@ MainControllerFunction = function($scope, toolFactory, $document, $window) {
     $scope.$apply();
   }
 
+  $scope.scores = [
+    {name: "Greg", score: 98},
+    {name: "Ari", score: 96},
+    {name: 'Q', score: 75},
+    {name: 'Quazimodo', score:0},
+    {name: 'Quincunx', score:99},
+    {name: "Loser", score: 48}
+  ]
 
+  // We'll know we're hooking up to the scores from the controller when the order changes
+  var hellFlipYa = 1 // switch to -1 to change order
+  $scope.scores.sort(function(a,b){
+    var alc = a.name.toLowerCase()
+    var blc = b.name.toLowerCase()
+    if (alc > blc) {
+      return 1 * hellFlipYa
+    } else if (blc > alc) {
+      return -1 * hellFlipYa
+    }
+    return 0
+  })
+
+  console.log('scores: '+JSON.stringify($scope.scores))
+
+  var rollNDice = function(nDice, sides) {
+    var result = 0
+    while (--nDice >= 0) {
+      result += Math.floor(Math.random()*sides)
+    }
+    return result
+  }
+
+  $interval(function() {
+    console.log('this many scores: '+$scope.scores.length)
+    var pick = Math.floor(Math.random()*$scope.scores.length)
+    var newValue = rollNDice(4,25) // throw 4 25-sided dice, sum
+    console.log('pick was '+pick)
+    $scope.scores[pick].score = newValue
+  }, 2000)
 }

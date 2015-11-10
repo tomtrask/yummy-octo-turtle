@@ -2,14 +2,18 @@
 var Graph1DirFunction = function(d3Svc, $window) {
   //  factory model.
   return {
-    restrict: 'EA',
-    scope: {},
-    link: function(scope, elt, attrs) {
+    restrict : 'EA',
+    scope    : {
+        data: '=' // bi-directional data-binding
+    },
+    link     : function(scope, elt, attrs) {
       d3Svc.d3().then(function(d3) {
         var margin = parseInt(attrs.margin) || 20
         var barHeight = parseInt(attrs.barHeight) || 20
         var barPadding = parseInt(attrs.barPadding) || 5
- 
+
+        console.log('bar-height='+barHeight)
+
         var svg = d3.select(elt[0])
           .append('svg')
           .style('width', '100%')
@@ -19,14 +23,6 @@ var Graph1DirFunction = function(d3Svc, $window) {
           scope.$apply();
         };
 
-        // hard-code data
-        scope.data = [
-          {name: "Greg", score: 98},
-          {name: "Ari", score: 96},
-          {name: 'Q', score: 75},
-          {name: "Loser", score: 48}
-        ]
-
         // Watch for resize event
         scope.$watch(function() {
             return angular.element($window)[0].innerWidth;
@@ -34,6 +30,14 @@ var Graph1DirFunction = function(d3Svc, $window) {
             scope.render(scope.data);
           }
         )
+
+        scope.$watch('data', function(newVals, oldVals) {
+          // So...we only need to do a full render if the bars change order.
+          return scope.render(newVals)
+        }, true)
+
+        var renderBar = function(datum) {
+        }
 
         scope.render = function(data) {
           // remove all previous items before render
@@ -65,18 +69,35 @@ var Graph1DirFunction = function(d3Svc, $window) {
           svg.selectAll('rect')
             .data(data).enter()
             .append('rect')
-            .attr('height', barHeight)
-            .attr('width', 140)
-            .attr('x', Math.round(margin/2))
-            .attr('y', function(d,i) {
-              return i * (barHeight + barPadding)
-            })
-            .attr('fill', function(d) { return color(d.score); })
+              .attr('height', barHeight)
+              // .attr('width', 140)
+              .attr('width', function(d){return xScale(d.score)})
+              .attr('x', Math.round(margin/2))
+              .attr('y', function(d,i) {
+                return i * (barHeight + barPadding)
+              })
+              .attr('fill', function(d) { console.log('fill color: '+color(d.score));return color(d.score); })
+              .forEach(function(a,i) {
+                console.log(i+'here\'s the deal: '+a)
+              })
+
+          /*
+          svg.selectAll('rect')
+            .data(data).each()
+              .append('text')
+                .attr('x', Math.round(margin/2))
+                .attr('y', function(d,i) { return i*(barHeight+barPadding)+20})
+                .attr('font-family', 'sans-serif')
+                .attr('font-size', '20px')
+                .attr('fill', 'black')
+          */
+            /*
             .transition()
               .duration(1000)
               .attr('width', function(d) {
                 return xScale(d.score)
               })
+            */
             // our custom d3 code
         }
       })

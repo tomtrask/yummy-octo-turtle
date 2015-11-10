@@ -42,7 +42,9 @@
         </tr>
       </table>
     </div>
-    <div graph1></div>
+
+    <!-- fancy.  Notice controller is mainController -->
+    <div graph1 data="scores" bar-height="37" bar-padding="14"></div>
 
 <div ng-show='describe'>
   Data File:&nbsp;{{appModel.getHistoryFileName()}}<br/>
@@ -52,6 +54,7 @@
     to&nbsp;{{(describe.average+1.96*describe.stdDev) | number:-2}}<br/>
 </div>
 
+<!-- not as good as the directive above -->
 <section id='graph' ng-controller='graphCtrl'>
 </section>
 
