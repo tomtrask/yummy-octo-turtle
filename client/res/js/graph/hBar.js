@@ -4,13 +4,16 @@ var HBarDirFunction = function(d3Svc, $window) {
   return {
     restrict : 'EA',
     scope    : {
-        data: '=' // bi-directional data-binding
+      data: '=' // bi-directional data-binding
     },
     link     : function(scope, elt, attrs) {
       d3Svc.d3().then(function(d3) {
+        var plotValue = attrs.plotValue || 'value'
         var margin = parseInt(attrs.margin) || 20
         var barHeight = parseInt(attrs.barHeight) || 20
         var barPadding = parseInt(attrs.barPadding) || 5
+
+        console.log('we will plot '+plotValue)
 
         var svg = d3.select(elt[0])
           .append('svg')
@@ -56,7 +59,7 @@ var HBarDirFunction = function(d3Svc, $window) {
           // Ok, now this is some pretty code...(props to whomever)
           var xScale = d3.scale.linear()
             .domain([0, d3.max(data, function(d) {
-              return d.score
+              return d[plotValue]
             })])
             .range([0, width])
 
@@ -72,14 +75,14 @@ var HBarDirFunction = function(d3Svc, $window) {
               .append('rect')
                 .attr('height', barHeight)
                 .attr('width', function(d) {
-                  return xScale(d.score)
+                  return xScale(d[plotValue])
                 })
                 .attr('x', Math.round(margin/2))
                 .attr('y', function(d,i) {
                   return Math.round(barPadding/2 + i * (barHeight + barPadding))
                 })
                 .attr('fill', function(d) {
-                  return color(d.score)
+                  return color(d[plotValue])
                 })
           var fontHeight = Math.round(0.5*barHeight)
           svg.selectAll('g')
@@ -91,7 +94,7 @@ var HBarDirFunction = function(d3Svc, $window) {
                 var y = (barHeight+0.75*fontHeight+barPadding)/2 + i*(barHeight+barPadding)
                 return Math.round(y)
               })
-              .text(function(d) {return d.name+' ('+d.score+')'})
+              .text(function(d) {return d.name+' ('+d[plotValue]+')'})
               .attr('font-family', 'sans-serif')
               .style('font-size', fontHeight+'px')
               .attr('fill', 'black')
