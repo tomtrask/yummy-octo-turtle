@@ -100,8 +100,6 @@ MainControllerFunction = function($scope, toolFactory, $document, $window, $inte
     return 0
   })
 
-  console.log('scores: '+JSON.stringify($scope.scores))
-
   var rollNDice = function(nDice, sides) {
     var result = 0
     while (--nDice >= 0) {
@@ -111,10 +109,8 @@ MainControllerFunction = function($scope, toolFactory, $document, $window, $inte
   }
 
   $interval(function() {
-    console.log('this many scores: '+$scope.scores.length)
     var pick = Math.floor(Math.random()*$scope.scores.length)
     var newValue = rollNDice(4,25) // throw 4 25-sided dice, sum
-    console.log('pick was '+pick)
     $scope.scores[pick].score = newValue
   }, 1000)
 }
