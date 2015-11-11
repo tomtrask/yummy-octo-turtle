@@ -65,28 +65,78 @@ var Graph1DirFunction = function(d3Svc, $window) {
           // set the height based on the calculations above
           svg.attr('height', height)
 
+          var radius = Math.round(barHeight/2)
           //create the rectangles for the bar chart
           svg.selectAll('rect')
-            .data(data).enter()
-            .append('rect')
-              .attr('height', barHeight)
-              // .attr('width', 140)
-              .attr('width', function(d){return xScale(d.score)})
+            .data(data)
+            .enter()
+            .append('g')
+              .append('rect')
+                .attr('height', barHeight)
+                .attr('width', function(d) {
+                  return xScale(d.score)
+                })
+                .attr('x', Math.round(margin/2))
+                .attr('y', function(d,i) {
+                  return Math.round(barPadding/2 + i * (barHeight + barPadding))
+                })
+                .attr('fill', function(d) {
+                  return color(d.score)
+                })
+          var fontHeight = Math.round(0.5*barHeight)
+          console.log('fontHeight is '+fontHeight)
+          svg.selectAll('g')
+            .data(data)
+            // update()
+            .append('text')
               .attr('x', Math.round(margin/2))
               .attr('y', function(d,i) {
-                return i * (barHeight + barPadding)
+                return Math.round((barHeight+0.75*fontHeight+barPadding)/2 + i*(barHeight+barPadding))
               })
-              .attr('fill', function(d) { console.log('fill color: '+color(d.score));return color(d.score); })
-              .forEach(function(a,i) {
-                console.log(i+'here\'s the deal: '+a)
+              .text(function(d) {return d.name+' ('+d.score+')'})
+              .attr('font-family', 'sans-serif')
+              .style('font-size', fontHeight+'px')
+              .attr('fill', 'black')
+
+/*
+          var labels = texts
+              .attr('x', Math.round(margin/2))
+              .attr('y', function(d,i) {
+                return Math.round((barHeight)/2+i*(barHeight+barPadding))
               })
+              .text(function(d) {return d.name+' ('+d.score+')'})
+              .attr('font-family', 'sans-serif')
+              .attr('font-size', fontHeight+'px')
+              .attr('fill', 'black')
+*/
+
+          //  Ok....do one loop on all the rectangles, then add the rest to the group
+          //  basically depth first on that group, then add everything to that g
+          /*
+          svg.selectAll('g')
+            .data(data)
+            // .update()
+            .append('circle')
+              .attr('cx', Math.round(margin/2+radius))
+              .attr('cy', function(d,i) {
+                return i*(barHeight+barPadding)
+              })
+              .attr('r', '20')
+              .attr('fill', 'red')
+           */
+
 
           /*
           svg.selectAll('rect')
-            .data(data).each()
-              .append('text')
-                .attr('x', Math.round(margin/2))
-                .attr('y', function(d,i) { return i*(barHeight+barPadding)+20})
+            .data(data)
+            .update()
+            .append('text')
+              .attr('x', Math.round(margin/2))
+                .attr('y', function(d,i) {
+                  var y = i*(barHeight+barPadding)+20
+                  console.log('y='+y)
+                  return y
+                })
                 .attr('font-family', 'sans-serif')
                 .attr('font-size', '20px')
                 .attr('fill', 'black')

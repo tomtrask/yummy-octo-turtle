@@ -116,5 +116,5 @@ MainControllerFunction = function($scope, toolFactory, $document, $window, $inte
     var newValue = rollNDice(4,25) // throw 4 25-sided dice, sum
     console.log('pick was '+pick)
     $scope.scores[pick].score = newValue
-  }, 2000)
+  }, 1000)
 }
