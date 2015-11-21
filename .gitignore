@@ -6,6 +6,7 @@
 *.csv
 data/
 deploy/
+images/
 node_modules/
 *.nw
 punkt/
