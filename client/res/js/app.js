@@ -109,6 +109,7 @@ myModule.run(function($rootScope, $window, toolFactory, HISTORY_FILE) {
   // There's no real reason to save the name of our history file in localStorage
   if (localStorage[appStateName]) {
     appState = JSON.parse(localStorage[appStateName])
+    console.log('initial appState: '+JSON.stringify(appState,{},4))
   } else {
     appState = {}
     saveAppState()
