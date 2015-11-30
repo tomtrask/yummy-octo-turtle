@@ -2,6 +2,17 @@ MainControllerFunction = function($scope, toolFactory, $document, $window, $inte
   $scope.askingAbout = 10000
   $scope.frequencyDescription = 'n/a'
 
+  $scope.randomShit = [
+    {name:'alpha', steps:10000},
+    {name:'bravo', steps:10000},
+    {name:'charlie', steps:10000},
+    {name:'delta', steps:10000},
+    {name:'echo', steps:10000},
+    {name:'foxtrot', steps:10000}
+  ]
+  // $scope.history = []
+
+
   var tell = function(count,total,partialDescr, steps) {
     var result = []
     var frac = count/total

@@ -26,6 +26,8 @@ myModule.run(function($rootScope, $window, toolFactory, HISTORY_FILE) {
     historyFileName : HISTORY_FILE
   }
 
+  // $rootScope.history = []
+
   var saveAppState = function() {
     localStorage[appStateName] = JSON.stringify(appState)
   }
@@ -60,8 +62,16 @@ myModule.run(function($rootScope, $window, toolFactory, HISTORY_FILE) {
   var privateReadHistoryFile = function(historyFileName, callback) {
     toolFactory.readHistoryFile(historyFileName, function(err,res) {
       if (err === null) {
-        $rootScope.history = res
+        if ($rootScope.history) {
+          console.log('splice that beyotch')
+          $rootScope.history.splice(0,$rootScope.history.length,res)
+          $rootScope.$apply()
+        } else {
+          $rootScope.history = res
+          console.log('we went this way')
+        }
       } else {
+        console.log('this makes no sense at all...')
         $rootScope.history = []
         //  we try not to write empty history files so this is a reasonable response.
         $window.alert('the history file ('+appState.historyFileName+') seems to be empty')

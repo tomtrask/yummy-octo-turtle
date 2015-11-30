@@ -13,7 +13,7 @@ AddReadingControllerFunction = function($scope, toolFactory) {
 
   var dateMillis = function(d) {return d.getTime() % ONE_DAY;};
 
-  if ($scope.history) {
+  if ($scope.history && $scope.history.length > 0) {
     var maxDate = dateMillis($scope.history[0].dateAsDate);
     for (var i = 1 ; i < $scope.history.length ; ++i) {
       if (dateMillis($scope.history[i].dateAsDate) > maxDate)

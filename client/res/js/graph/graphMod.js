@@ -2,4 +2,5 @@
 angular.module('graphMod', [])
   .directive('graph1', Graph1DirFunction)
   .directive('hBar', HBarDirFunction)
+  .directive('scatter', ScatterDirFunction)
 //  End.
