@@ -11,23 +11,27 @@ var ScatterDirFunction = function(d3Svc, $window, $interval, $timeout) {
     layout   : {
     },
     scope    : {
-      xValue    : '@',
-      yValue    : '@',
-      data      : '='
+      config    : '=',
+      xOrd      : '@xOrd',
+      yOrd      : '@yOrd',
+      data      : '=',
+      width     : '@width'
+
     },
     //  we do drawData as a separate function because in some cases drawing the data
     //  is not available when the initial frame is drawn (other apps)
     drawData : function(scope) {
       console.log('here we are in drawData()')
-      console.log('x-value will be '+scope.xValue)
-      console.log('y-value will be '+scope.yValue)
+      console.log('x-value will be '+scope.xOrd)
+      console.log('y-value will be '+scope.yOrd)
+      console.log('config will be '+JSON.stringify(scope.config))
       console.log('data: '+scope.data)
       //console.log('hey, what is the data? '+JSON.stringify(scope.data[0]))
-      console.log('plotValue: '+scope.plotValue)
+      console.log('plotOrd: '+scope.plotOrd)
 
       for (var key in scope) {
         if (!key.match(/^\$/))
-          console.log('key: '+key)
+          console.log('key: '+key+' = '+typeof(scope[key]))
       }
 
       /*
@@ -39,25 +43,57 @@ var ScatterDirFunction = function(d3Svc, $window, $interval, $timeout) {
 
       scope.$watchCollection(function(){return scope.data}, function(newVal, oldVal) {
         if (newVal) {
+          console.log('now we have data...I bet this fucker is good: '+JSON.stringify(scope.config))
           var now = (new Date()).getTime()
           var yearAgo = now - (366*86400)*1000
 
           var history = []
           newVal.forEach(function(d) {
             d.date = new Date(d.date)
-            if (d.date.getTime() > yearAgo) {
-              history.push(d)
-            }
+          })
+          history = newVal.filter(function(d) {
+            return d.date.getTime() > yearAgo
           })
 
+          //  play with rollup, mean, key...
+          var averages = d3.nest()
+            .key(function(d) {
+              var date = new Date(d.date)
+              return date.getMonth()
+            })
+          //  .sortKeys(d3.ascending)
+            .rollup(function(d) {
+              return d3.mean(d, function(g) { 
+                return +g.pedometer
+              })
+            })
+            .entries(history)
+          // console.log('monthly averages: '+JSON.stringify(averages,{},4))
+
+          // Cool...what's our average by part of week (weekday, weekend)?
+          averages = d3.nest()
+            .key(function(d) {
+              var date = new Date(d.date)
+              return date.getDay()
+            })
+            .sortKeys(d3.ascending)
+            .rollup(function(d) {
+              return d3.mean(d, function(g) { 
+                return +g.pedometer
+              })
+            })
+            .entries(history)
+
+          // console.log('daily averages: '+JSON.stringify(averages, {}, 4))
+
           var grain = 5000
-          console.log('yValue: '+scope.yValue)
-          var ymax = d3.max(history, function(elt){return elt[scope.yValue]})
+          console.log('yOrd: '+scope.yOrd)
+          var ymax = d3.max(history, function(elt){return elt[scope.yOrd]})
           var cymax = Math.ceil(ymax/grain)*grain
-          var ymin = d3.min(history, function(elt){return elt[scope.yValue]})
+          var ymin = d3.min(history, function(elt){return elt[scope.yOrd]})
           var fymin = Math.floor(ymin/grain)*grain
 
-          console.log('max y: '+d3.max(history, function(elt){return elt[scope.yValue]}))
+          console.log('max y: '+d3.max(history, function(elt){return elt[scope.yOrd]}))
           console.log('min y: '+d3.min(history, function(elt){return elt.pedometer}))
 
           that.layout.x.domain(d3.extent(history, function(elt){return elt.date}))
@@ -72,15 +108,28 @@ var ScatterDirFunction = function(d3Svc, $window, $interval, $timeout) {
             .attr("d", that.layout.valueline(history))
           */
 
+          var addLine = function(pt1, pt2) {
+            console.log('here we go')
+            that.layout.svg.append("line")
+              .attr("x1", pt1[0])
+              .attr("y1", pt1[1])
+              .attr("x2", pt2[0])
+              .attr("y2", pt2[1])
+              .style('stroke', 'blue')
+          }
+
+
           // Add the scatterplot
           that.layout.svg.selectAll("dot")
             .data(history)
             .enter().append("circle")
-              .attr("r", 3.5)
+              .attr("r", 2.5)
               .attr("cx", function(d) { return that.layout.x(d.date); })
               .attr("cy", function(d) { return that.layout.y(d.pedometer); })
               .attr('fill', 'none')
-              .attr('stroke','#f00')
+              .attr('stroke','#ff3c3c')
+
+          addLine([0,25000], [500,20000])
 
           // Add the X Axis
           that.layout.svg.append("g")
@@ -99,6 +148,11 @@ var ScatterDirFunction = function(d3Svc, $window, $interval, $timeout) {
     link     : function(scope, elt, attrs) {
       console.log('happy camper on my new scatter plot')
       console.log('hey, is that history thing done yet? '+that.scope.data)
+      for (var key in scope) {
+        if (!key.match(/^\$/)) {
+          console.log('    '+key+': '+typeof(scope[key]))
+        }
+      }
 
       d3Svc.d3().then(function(d3) {
         // Set the dimensions of the canvas / graph
@@ -142,9 +196,7 @@ var ScatterDirFunction = function(d3Svc, $window, $interval, $timeout) {
         that.layout.valueline = valueline
     
         // Adds the svg canvas
-        console.log('I think the element we will fill is '+elt[0])
-
-        console.log('there are '+elt.length+' elements')
+        console.log('scope.width is '+scope.width)
         var svg = d3.select(elt[0])
           .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -161,51 +213,6 @@ var ScatterDirFunction = function(d3Svc, $window, $interval, $timeout) {
         // Get the data
         console.log('scope.data: '+scope.data)
         that.drawData(scope)
-          /*
-        d3.csv("data.csv", function(error, data) {
-          if (error) {
-            console.error('error in fetching data.csv: '+error)
-            return
-          } else {
-            console.log('this is the data: '+JSON.stringify(data))
-          }
-
-          data.forEach(function(d) {
-            d.date = parseDate(d.date);
-            d.close = +d.close;
-          });
-
-          // Scale the range of the data
-          x.domain(d3.extent(data, function(d) { return d.date; }));
-          y.domain([0, d3.max(data, function(d) { return d.close; })]);
-
-          // Add the valueline path.
-          svg.append("path")
-            .attr("class", "line")
-            .attr("d", valueline(data));
-
-          // Add the scatterplot
-          svg.selectAll("dot")
-            .data(data)
-            .enter().append("circle")
-              .attr("r", 3.5)
-              .attr("cx", function(d) { return x(d.date); })
-              .attr("cy", function(d) { return y(d.close); });
-
-            // Add the X Axis
-            svg.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
-      
-            // Add the Y Axis
-            svg.append("g")
-              .attr("class", "y axis")
-              .call(yAxis);
-          that.derga(scope)
-
-        })
-          */
       })
     }
   } // close our directive factory

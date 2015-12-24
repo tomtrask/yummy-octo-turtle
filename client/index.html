@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="res/css/styles.css">
     <!-- endbuild -->
 
-    <!-- we don't have to use the min version; we'll minify everything -->
+    <!-- we don't have to use the min version; we'll minify everything in gulp -->
     <!-- build:jsExt res/ext.min.js -->
     <script src='ext/d3/d3.js'></script>
     <script src="ext/angular/angular.js"></script>
@@ -60,7 +60,7 @@
 -->
 
     <!-- fancy.  Notice controller is mainController -->
-    <div scatter data='history' y-value='pedometer' x-value='date' ></div>
+    <div scatter config='graphConfig' data='history' x-ord='spunk' y-ord='pedometer' ></div>
 
 <!--
 <div>

@@ -58,7 +58,7 @@ th.k-value {
 
 .axis path, .axis line {
   fill: none;
-  stroke: #F00;
+  stroke: #000;
   shape-rendering: crispEdges;
 }
 
