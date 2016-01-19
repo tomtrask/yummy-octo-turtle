@@ -12,7 +12,9 @@ var ScatterDirFunction = function(d3Svc, $window, $interval, $timeout) {
     },
     scope    : {
       config    : '=',
-      xOrd      : '@xOrd',
+      otherconfig : '=',
+      // xord      : '@xord',
+      xord      : '=',
       yOrd      : '@yOrd',
       data      : '=',
       width     : '@width'
@@ -22,9 +24,10 @@ var ScatterDirFunction = function(d3Svc, $window, $interval, $timeout) {
     //  is not available when the initial frame is drawn (other apps)
     drawData : function(scope) {
       console.log('here we are in drawData()')
-      console.log('x-value will be '+scope.xOrd)
+      console.log('x-value will be '+scope.xord)
       console.log('y-value will be '+scope.yOrd)
       console.log('config will be '+JSON.stringify(scope.config))
+      console.log('other config will be '+JSON.stringify(scope.otherconfig))
       console.log('data: '+scope.data)
       //console.log('hey, what is the data? '+JSON.stringify(scope.data[0]))
       console.log('plotOrd: '+scope.plotOrd)
@@ -43,8 +46,9 @@ var ScatterDirFunction = function(d3Svc, $window, $interval, $timeout) {
 
       scope.$watchCollection(function(){return scope.data}, function(newVal, oldVal) {
         if (newVal) {
-          console.log('now we have data...I bet this fucker is good: '+JSON.stringify(scope.config))
           var now = (new Date()).getTime()
+          console.log('now we have data (or maybe more data): '+now+
+                      ' data length '+scope.data.length)
           var yearAgo = now - (366*86400)*1000
 
           var history = []
@@ -156,7 +160,7 @@ var ScatterDirFunction = function(d3Svc, $window, $interval, $timeout) {
 
       d3Svc.d3().then(function(d3) {
         // Set the dimensions of the canvas / graph
-        var margin = {top: 30, right: 20, bottom: 30, left: 50},
+        var margin = {top: 30, right: 10, bottom: 30, left: 55},
             width = 640 - margin.left - margin.right,
             height = 270 - margin.top - margin.bottom;
         that.layout.height = height

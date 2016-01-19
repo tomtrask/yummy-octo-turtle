@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <html ng-app="rootModule">
   <head>
-    <title>Pedometer Log</title>
+    <title>Pedometer° Log</title>
 
     <!-- build:css res/app.min.css -->
     <link rel="stylesheet" href="res/css/styles.css">
@@ -19,6 +19,10 @@
   </head>
   <body>
   <div ng-controller="mainController">
+    <span ng-bind='name'></span>
+    <!-- /<span ng-bind='nameHtml'></span> -->
+    <!-- /<span ng-bind-html='nameHtml'></span> -->
+    /<span ng-bind-html-unsafe='namely'></span><br/>
     <div ng-show='0' class="section" ng-controller="getFileController">
       <!-- ng-change does not work on date input -->
       Different File Input:&nbsp;
@@ -60,7 +64,7 @@
 -->
 
     <!-- fancy.  Notice controller is mainController -->
-    <div scatter config='graphConfig' data='history' x-ord='spunk' y-ord='pedometer' ></div>
+    <div scatter config='graphConfig' otherConfig='graphConfig2' data='history' x-ord='spunk' y-ord='pedometer' ></div>
 
 <!--
 <div>

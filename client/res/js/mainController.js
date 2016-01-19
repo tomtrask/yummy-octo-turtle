@@ -2,6 +2,10 @@ MainControllerFunction = function($scope, toolFactory, $document, $window, $inte
   $scope.askingAbout = 10000
   $scope.frequencyDescription = 'n/a'
 
+  $scope.name = 'tom'
+  $scope.namely = '<b>'+$scope.name+'</b>'
+  $scope.nameHtml = '<b>'+$scope.name+'</b>'
+
   $scope.graphConfig = {
     xOrd : 'date',
     yOrd : 'pedometer',
@@ -11,6 +15,11 @@ MainControllerFunction = function($scope, toolFactory, $document, $window, $inte
       color : '#00F'
     }
     // line undefined means no line but could be color, thickness, style
+  }
+
+  $scope.graphConfig2 = {
+    type : 'beat',
+    what : 'cop'
   }
 
   var tell = function(count,total,partialDescr, steps) {
